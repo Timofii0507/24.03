@@ -6,35 +6,56 @@ using System.Threading.Tasks;
 
 namespace _24._03
 {
-    class Program
+    public class Program
     {
-        public delegate void AgeDelegate(Person person);
+        public delegate void MaxDistanceEventHandler(object sender, MaxDistanceEventArgs e);
 
-        public static event AgeDelegate OnYoungest;
-        public static event AgeDelegate OnOldest;
+        public static event MaxDistanceEventHandler MaxDistanceEvent;
 
-        static void Main(string[] args)
+        public static void Main()
         {
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.CursorVisible = false;
-            Person[] people = new Person[]
+            Point3D[] points = {
+            new Point3D(0, 0, 0),
+            new Point3D(1, 1, 1),
+            new Point3D(2, 2, 2),
+        };
+
+            MaxDistanceEvent += OnMaxDistance;
+
+            FindMaxDistance(points);
+        }
+
+        public static void OnMaxDistance(object sender, MaxDistanceEventArgs e)
+        {
+            Console.WriteLine($"Максимальна відстань: {e.MaxDistance}");
+            Console.WriteLine($"Між точкою A({e.Point1.X}, {e.Point1.Y}, {e.Point1.Z}) та точкою B({e.Point2.X}, {e.Point2.Y}, {e.Point2.Z})");
+        }
+
+        public static void FindMaxDistance(Point3D[] points)
+        {
+            double maxDistance = 0;
+            Point3D maxPoint1 = null;
+            Point3D maxPoint2 = null;
+
+            for (int i = 0; i < points.Length; i++)
             {
-            new Person { FirstName = "John", LastName = "Doe", Age = 30 },
-            new Person { FirstName = "Jane", LastName = "Doe", Age = 25 },
-            };
+                for (int j = i + 1; j < points.Length; j++)
+                {
+                    double distance = Point3D.Distance(points[i], points[j]);
+                    if (distance > maxDistance)
+                    {
+                        maxDistance = distance;
+                        maxPoint1 = points[i];
+                        maxPoint2 = points[j];
+                    }
+                }
+            }
 
-            OnYoungest += person => Console.WriteLine($"Наймолодший: {person.FirstName} {person.LastName}, Вік: {person.Age}");
-            OnOldest += person => Console.WriteLine($"Найстарший: {person.FirstName} {person.LastName}, Вік: {person.Age}");
-
-            var youngest = people.OrderBy(p => p.Age).FirstOrDefault();
-            var oldest = people.OrderByDescending(p => p.Age).FirstOrDefault();
-
-            OnYoungest?.Invoke(youngest);
-            OnOldest?.Invoke(oldest);
-
-            Console.WriteLine($"Середній вік: {people.AverageAge():F2}");
+            MaxDistanceEvent?.Invoke(null, new MaxDistanceEventArgs(maxDistance, maxPoint1, maxPoint2));
         }
     }
 }
