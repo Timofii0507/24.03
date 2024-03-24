@@ -8,34 +8,34 @@ namespace _24._03
 {
     public static class StringExtensions
     {
-        public static int WordCount(this string str)
+        public delegate void LastWordLengthCalculated(int length);
+
+        public static event LastWordLengthCalculated OnLastWordLengthCalculated;
+
+        public static int LastWordLength(this string str)
         {
-            if (string.IsNullOrWhiteSpace(str))
-                return 0;
+            str = str.TrimEnd();
 
-            int wordCount = 0;
-            bool inWord = false;
+            int length = 0;
+            bool foundNonSpace = false;
 
-            foreach (char c in str)
+            for (int i = str.Length - 1; i >= 0; i--)
             {
-                if (char.IsWhiteSpace(c))
+                if (char.IsWhiteSpace(str[i]))
                 {
-                    if (inWord)
-                    {
-                        wordCount++;
-                        inWord = false;
-                    }
+                    if (foundNonSpace)
+                        break;
                 }
                 else
                 {
-                    inWord = true;
+                    foundNonSpace = true;
+                    length++;
                 }
             }
 
-            if (inWord)
-                wordCount++;
+            OnLastWordLengthCalculated?.Invoke(length);
 
-            return wordCount;
+            return length;
         }
     }
 }

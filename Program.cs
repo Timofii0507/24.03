@@ -14,21 +14,16 @@ namespace _24._03
             Console.OutputEncoding = Encoding.Unicode;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.CursorVisible = false;
-            string text = "This is a test string for word count extension method.";
+            StringExtensions.OnLastWordLengthCalculated += LastWordLengthCalculatedEventHandler;
 
-            Console.WriteLine($"Initial text: {text}");
-            int wordCount = text.WordCount();
-            Console.WriteLine($"Word count: {wordCount}");
-            WordCounter wordCounter = new WordCounter(text);
-            wordCounter.WordCountChanged += WordCounter_WordCountChanged;
-            wordCounter.Text = "Updated text with some more words.";
-
-            Console.ReadLine();
+            string testString = "Привіт, Світ!";
+            int lastWordLength = testString.LastWordLength();
+            Console.WriteLine($"Довжина останнього слова: {lastWordLength}");
         }
 
-        private static void WordCounter_WordCountChanged(int newWordCount)
+        static void LastWordLengthCalculatedEventHandler(int length)
         {
-            Console.WriteLine($"Word count changed: {newWordCount}");
+            Console.WriteLine($"Підрахунок довжини останнього слова завершено. Довжина: {length}");
         }
     }
 }
