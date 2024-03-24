@@ -6,31 +6,29 @@ using System.Threading.Tasks;
 
 namespace _24._03
 {
-    public class Program
+    class Program
     {
-        public delegate void FibonacciTestHandler(int number, bool isFibonacci);
-
-        public static event FibonacciTestHandler OnFibonacciTest;
-
-        public static void Main()
+        static void Main(string[] args)
         {
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.CursorVisible = false;
-            OnFibonacciTest += (number, isFibonacci) =>
-            {
-                Console.WriteLine($"{number} є числом Фібоначчі: {isFibonacci}");
-            };
+            string text = "This is a test string for word count extension method.";
 
-            TestFibonacci(21);
-            TestFibonacci(4);
+            Console.WriteLine($"Initial text: {text}");
+            int wordCount = text.WordCount();
+            Console.WriteLine($"Word count: {wordCount}");
+            WordCounter wordCounter = new WordCounter(text);
+            wordCounter.WordCountChanged += WordCounter_WordCountChanged;
+            wordCounter.Text = "Updated text with some more words.";
+
+            Console.ReadLine();
         }
 
-        public static void TestFibonacci(int number)
+        private static void WordCounter_WordCountChanged(int newWordCount)
         {
-            bool isFibonacci = number.IsFibonacci();
-            OnFibonacciTest?.Invoke(number, isFibonacci);
+            Console.WriteLine($"Word count changed: {newWordCount}");
         }
     }
 }
