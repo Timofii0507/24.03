@@ -6,24 +6,29 @@ using System.Threading.Tasks;
 
 namespace _24._03
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static event Action<string, bool> OnValidationComplete;
+
+        public static void Main()
         {
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.CursorVisible = false;
-            StringExtensions.OnLastWordLengthCalculated += LastWordLengthCalculatedEventHandler;
+            OnValidationComplete += (s, b) => Console.WriteLine($"'{s}' is " + (b ? "valid" : "invalid"));
 
-            string testString = "Привіт, Світ!";
-            int lastWordLength = testString.LastWordLength();
-            Console.WriteLine($"Довжина останнього слова: {lastWordLength}");
+            Test("(){}[]");
+            Test("(())");
+            Test("[{}]");
+            Test("[}");
+            Test("[[{]}]");
         }
 
-        static void LastWordLengthCalculatedEventHandler(int length)
+        public static void Test(string input)
         {
-            Console.WriteLine($"Підрахунок довжини останнього слова завершено. Довжина: {length}");
+            bool isValid = input.IsValidParentheses();
+            OnValidationComplete?.Invoke(input, isValid);
         }
     }
 }
