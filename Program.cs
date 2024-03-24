@@ -6,20 +6,26 @@ using System.Threading.Tasks;
 
 namespace _24._03
 {
-    class Program
+    public static class StringExtensions
     {
-        public static event Action<string> OnVowelCounting;
+        public static int CountUkrainianConsonants(this string input)
+        {
+            return input.Count(c => "бвгґджзйклмнпрстфхцчшщ".Contains(Char.ToLower(c)));
+        }
+    }
 
-        static void Main(string[] args)
+    public class Program
+    {
+        public static void Main()
         {
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.CursorVisible = false;
-            OnVowelCounting += (s) => Console.WriteLine($"Кількість голосних у рядку: {s.CountVowels()}");
+            Action<string> onConsonantsCounted = (s) => Console.WriteLine($"У рядку '{s}' {s.CountUkrainianConsonants()} українських приголосних.");
 
-            string testString = "Привіт, як справи?";
-            OnVowelCounting?.Invoke(testString);
+            string testString = "Привіт, Світ!";
+            onConsonantsCounted(testString);
         }
     }
 }
