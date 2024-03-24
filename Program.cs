@@ -8,21 +8,18 @@ namespace _24._03
 {
     class Program
     {
+        public static event Action<string> OnVowelCounting;
+
         static void Main(string[] args)
         {
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.CursorVisible = false;
-            PrimeTest primeTest = new PrimeTest();
-            
-            primeTest.PrimeChecked += (number, isPrime) =>
-            {
-                Console.WriteLine($"{number} є простим числом: {isPrime}");
-            };
+            OnVowelCounting += (s) => Console.WriteLine($"Кількість голосних у рядку: {s.CountVowels()}");
 
-            primeTest.CheckNumber(11);
-            primeTest.CheckNumber(4);  
+            string testString = "Привіт, як справи?";
+            OnVowelCounting?.Invoke(testString);
         }
     }
 }
