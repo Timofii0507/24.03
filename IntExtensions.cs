@@ -8,9 +8,9 @@ namespace _24._03
 {
     public static class IntExtensions
     {
-        public static bool IsOdd(this int number)
+        public static bool IsEven(this int number)
         {
-            return number % 2 != 0;
+            return number % 2 == 0;
         }
     }
 }

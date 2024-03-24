@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace _24._03
 {
-    public delegate void NumberTestedEventHandler(int number, bool isOdd);
+    public delegate void NumberTestedEventHandler(int number, bool isEven);
 
     public class NumberTester
     {
@@ -14,13 +14,8 @@ namespace _24._03
 
         public void TestNumber(int number)
         {
-            bool isOdd = number.IsOdd();
-            OnNumberTested(number, isOdd);
-        }
-
-        protected virtual void OnNumberTested(int number, bool isOdd)
-        {
-            NumberTested?.Invoke(number, isOdd);
+            bool isEven = number.IsEven();
+            NumberTested?.Invoke(number, isEven);
         }
     }
 }

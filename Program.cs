@@ -14,14 +14,15 @@ namespace _24._03
             Console.OutputEncoding = Encoding.Unicode;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.CursorVisible = false;
-            var tester = new NumberTester();
-            tester.NumberTested += (number, isOdd) =>
+            NumberTester tester = new NumberTester();
+
+            tester.NumberTested += (number, isEven) =>
             {
-                Console.WriteLine($"Число {number} є " + (isOdd ? "непарним." : "парним."));
+                Console.WriteLine($"Число {number} є " + (isEven ? "парним." : "непарним."));
             };
 
-            tester.TestNumber(5);
-            tester.TestNumber(8);
+            tester.TestNumber(4);
+            tester.TestNumber(7);
         }
     }
 }
