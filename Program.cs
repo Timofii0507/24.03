@@ -13,7 +13,7 @@ namespace _24._03
         public static event FibonacciTestHandler OnFibonacciTest;
 
         public static void Main()
-        {
+        { 
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
