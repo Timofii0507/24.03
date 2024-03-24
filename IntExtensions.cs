@@ -8,9 +8,14 @@ namespace _24._03
 {
     public static class IntExtensions
     {
-        public static bool IsEven(this int number)
+        public static bool IsPrime(this int number)
         {
-            return number % 2 == 0;
+            if (number < 2) return false;
+            for (int i = 2; i <= Math.Sqrt(number); i++)
+            {
+                if (number % i == 0) return false;
+            }
+            return true;
         }
     }
 }

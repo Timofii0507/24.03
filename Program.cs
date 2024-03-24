@@ -14,15 +14,15 @@ namespace _24._03
             Console.OutputEncoding = Encoding.Unicode;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.CursorVisible = false;
-            NumberTester tester = new NumberTester();
-
-            tester.NumberTested += (number, isEven) =>
+            PrimeTest primeTest = new PrimeTest();
+            
+            primeTest.PrimeChecked += (number, isPrime) =>
             {
-                Console.WriteLine($"Число {number} є " + (isEven ? "парним." : "непарним."));
+                Console.WriteLine($"{number} є простим числом: {isPrime}");
             };
 
-            tester.TestNumber(4);
-            tester.TestNumber(7);
+            primeTest.CheckNumber(11);
+            primeTest.CheckNumber(4);  
         }
     }
 }
