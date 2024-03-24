@@ -6,26 +6,31 @@ using System.Threading.Tasks;
 
 namespace _24._03
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public delegate void FibonacciTestHandler(int number, bool isFibonacci);
+
+        public static event FibonacciTestHandler OnFibonacciTest;
+
+        public static void Main()
         {
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.CursorVisible = false;
-            Fraction[] fractions = {
-            new Fraction(1, 2),
-            new Fraction(3, 4),
-            new Fraction(1, 3),
-            new Fraction(5, 8)
-        };
+            OnFibonacciTest += (number, isFibonacci) =>
+            {
+                Console.WriteLine($"{number} є числом Фібоначчі: {isFibonacci}");
+            };
 
-            Fraction minFraction = fractions.MinFraction();
-            Fraction maxFraction = fractions.MaxFraction();
+            TestFibonacci(21);
+            TestFibonacci(4);
+        }
 
-            Console.WriteLine("Мінімальний дріб: " + minFraction.Numerator + "/" + minFraction.Denominator);
-            Console.WriteLine("Максимальний дріб: " + maxFraction.Numerator + "/" + maxFraction.Denominator);
+        public static void TestFibonacci(int number)
+        {
+            bool isFibonacci = number.IsFibonacci();
+            OnFibonacciTest?.Invoke(number, isFibonacci);
         }
     }
 }
