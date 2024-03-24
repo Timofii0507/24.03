@@ -8,22 +8,33 @@ namespace _24._03
 {
     class Program
     {
-        static void Main()
+        public delegate void AgeDelegate(Person person);
+
+        public static event AgeDelegate OnYoungest;
+        public static event AgeDelegate OnOldest;
+
+        static void Main(string[] args)
         {
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.CursorVisible = false;
-            StringExtensions.SentenceCounted += OnSentenceCounted;
+            Person[] people = new Person[]
+            {
+            new Person { FirstName = "John", LastName = "Doe", Age = 30 },
+            new Person { FirstName = "Jane", LastName = "Doe", Age = 25 },
+            };
 
-            string text = "Це тестовий рядок. Він містить кілька речень! Чи працює метод?";
-            int sentenceCount = text.CountSentences();
-            Console.WriteLine($"Кількість речень у рядку: {sentenceCount}");
-        }
+            OnYoungest += person => Console.WriteLine($"Наймолодший: {person.FirstName} {person.LastName}, Вік: {person.Age}");
+            OnOldest += person => Console.WriteLine($"Найстарший: {person.FirstName} {person.LastName}, Вік: {person.Age}");
 
-        private static void OnSentenceCounted(object sender, SentenceCountedEventArgs e)
-        {
-            Console.WriteLine($"Підрахунок завершено. Кількість речень: {e.Count}");
+            var youngest = people.OrderBy(p => p.Age).FirstOrDefault();
+            var oldest = people.OrderByDescending(p => p.Age).FirstOrDefault();
+
+            OnYoungest?.Invoke(youngest);
+            OnOldest?.Invoke(oldest);
+
+            Console.WriteLine($"Середній вік: {people.AverageAge():F2}");
         }
     }
 }

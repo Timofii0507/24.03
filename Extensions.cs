@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace _24._03
 {
-    public class SentenceCountedEventArgs : EventArgs
+    public static class Extensions
     {
-        public int Count { get; }
-
-        public SentenceCountedEventArgs(int count)
+        public static double AverageAge(this Person[] people)
         {
-            Count = count;
+            return people.Average(p => p.Age);
         }
     }
 }
