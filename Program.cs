@@ -6,29 +6,21 @@ using System.Threading.Tasks;
 
 namespace _24._03
 {
-    public class Program
+    class Program
     {
-        public static event Action<string, bool> OnValidationComplete;
-
-        public static void Main()
+        static void Main()
         {
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.CursorVisible = false;
-            OnValidationComplete += (s, b) => Console.WriteLine($"'{s}' is " + (b ? "valid" : "invalid"));
+            int[] array = { 1, 2, 3, 4, 5, 6 };
 
-            Test("(){}[]");
-            Test("(())");
-            Test("[{}]");
-            Test("[}");
-            Test("[[{]}]");
-        }
+            int[] evenNumbers = array.Filter(x => x % 2 == 0);
+            Console.WriteLine("Парні числа: " + string.Join(", ", evenNumbers));
 
-        public static void Test(string input)
-        {
-            bool isValid = input.IsValidParentheses();
-            OnValidationComplete?.Invoke(input, isValid);
+            int[] oddNumbers = array.Filter(x => x % 2 != 0);
+            Console.WriteLine("Непарні числа: " + string.Join(", ", oddNumbers));
         }
     }
 }
