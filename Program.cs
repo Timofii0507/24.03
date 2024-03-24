@@ -14,13 +14,16 @@ namespace _24._03
             Console.OutputEncoding = Encoding.Unicode;
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             Console.CursorVisible = false;
-            int[] array = { 1, 2, 3, 4, 5, 6 };
+            var temperatureData = new TemperatureData(7); 
 
-            int[] evenNumbers = array.Filter(x => x % 2 == 0);
-            Console.WriteLine("Парні числа: " + string.Join(", ", evenNumbers));
+            temperatureData.OnMaxDifferenceChanged += (maxDifference) =>
+            {
+                Console.WriteLine($"Максимальна різниця температур: {maxDifference}°C");
+            };
 
-            int[] oddNumbers = array.Filter(x => x % 2 != 0);
-            Console.WriteLine("Непарні числа: " + string.Join(", ", oddNumbers));
+            temperatureData.AddTemperature(0, 25.5f, 15.3f);
+            temperatureData.AddTemperature(1, 22.8f, 14.4f);
         }
     }
+
 }
